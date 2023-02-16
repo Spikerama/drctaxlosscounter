@@ -1,12 +1,6 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <script>
-      const counter = setInterval(() => {
-        let count = Number(document.getElementById("counter").innerText.split("$")[1].replace(/,/g, ''));
-        count += 1;
-        document.getElementById("counter").innerText = `USD $ ${count.toLocaleString()}`;
-      }, 86400 / 300000);
-    </script>
     <style>
       * {
         padding: 0;
@@ -45,12 +39,21 @@
         font-size: 50em;
         text-align: center;
       }
-      span#counter {
+      .counter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
         color: #ffffff;
-        display: grid;
-        place-items: center;
-        font-weight: 600;
         font-size: 3.5em;
+      }
+      .counter-value {
+        display: flex;
+        align-items: center;
+      }
+      .counter-value span:not(:last-child) {
+        margin-right: 5px;
       }
       span#first-line-text {
         color: #ffffff;
@@ -72,8 +75,8 @@
           width: 85vw;
         }
         .container {
-          height: 26vmin;
-          width: 26vmin;
+          width: 50vw;
+          height: 20vw;
           font-size: 12px;
         }
       }
@@ -84,27 +87,53 @@
           gap: 30px;
         }
         .container {
-          width: calc(50% - 40px);
-          height: 30vmin;
+          width: calc(100% - 40px);
+          height: 35vw;
           font-size: 14px;
         }
         i {
           font-size: 40em;
         }
-        span#counter {
+        .counter {
           font-size: 2em;
         }
       }
-</style>
+    </style>
   </head>
   <body>
     <div class="wrapper">
       <div class="container">
         <i class="fas fa-dollar-sign"></i>
         <span id="first-line-text">DRC REVENUE LOSS</span>
-	<span id="counter">USD $85,638,921</span>
-         <span class="text">Based on forfeit of $300K a day since AVZ suspension<br>and Manono mine construction delayed by ministerial corruption.</span>
-      </div>
-    </div>
-  </body>
+        <div class="counter">
+          <div class="counter-value">
+            <span>$</span><span id="count">0</span><span>+</span>
+          </div>
+        </div>
+        <span class="text">Based on forfeit of $300K per day tax revenue from <br>AVZ / Manono mine delayed by DRC ministerial corruption
+
+
+	<script>
+	// set start date as May 11, 2022
+	const startDate = new Date("May 11, 2022 00:00:00");
+
+	// set the amount to accrue per day in USD
+	const amountPerDay = 300000;
+
+	function updateCounter() {
+	  // calculate the number of seconds elapsed since the start date
+	  const elapsedSeconds = Math.floor((new Date() - startDate) / 1000);
+
+	  // calculate the total amount accrued
+	  const totalAmount = elapsedSeconds * amountPerDay / (60 * 60 * 24);
+
+	  // update the counter value
+	  const countElement = document.getElementById("count");
+	  countElement.textContent = totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+	}
+
+	// update the counter every second
+	setInterval(updateCounter, 1000);
+	</script>
+</body>
 </html>
